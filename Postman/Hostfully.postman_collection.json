@@ -33,13 +33,13 @@
 			]
 		},
 		{
-			"name": "Property",
+			"name": "properties",
 			"item": [
 				{
-					"name": "Property Creation",
+					"name": "properties creation",
 					"item": [
 						{
-							"name": "POST Property - success - single countryCode",
+							"name": "POST properties - must succeed - HTTP code 201",
 							"event": [
 								{
 									"listen": "test",
@@ -95,7 +95,7 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
+											"var alias = \"Property for america7\"\r",
 											"var countryCode = \"US\"\r",
 											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
 											"\r",
@@ -145,7 +145,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Property - success - array of countryCodes",
+							"name": "POST properties - must succeed - HTTP code 201 - array of countryCodes",
 							"event": [
 								{
 									"listen": "test",
@@ -161,9 +161,8 @@
 											"\r",
 											"  var id = pm.environment.get(\"id\");\r",
 											"  var response_id = response.id;\r",
-											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
-											"   pm.expect(response_id).to.not.eql(id);\r",
-											"\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/); // response id must be a guid\r",
+											"   pm.expect(response_id).to.not.eql(id); \r",
 											"    pm.environment.set(\"property_id\", response_id);\r",
 											"   \r",
 											"});\r",
@@ -172,7 +171,7 @@
 											"    \r",
 											"  var alias = pm.environment.get(\"alias\");\r",
 											"  var response_alias = response.alias;\r",
-											"  pm.expect(response.alias).to.eql(alias);\r",
+											"  pm.expect(response.alias).to.eql(alias); \r",
 											"\r",
 											"});\r",
 											"\r",
@@ -201,8 +200,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for america7\"\r",
+											"var countryCode = [ \"US\", \"BR\", \"PL\", \"IN\" ]\r",
 											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -251,7 +250,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Property - success - object only with alias property",
+							"name": "POST properties - must succeed - HTTP code 201 - object only with alias property",
 							"event": [
 								{
 									"listen": "test",
@@ -287,7 +286,6 @@
 											"  var countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
 											"  pm.expect(response_countryCode).to.be.null\r",
-											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
@@ -306,7 +304,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"var alias = \"Property for america11\"\r",
+											"var alias = \"Property for america12\"\r",
 											"\r",
 											"pm.environment.set(\"alias\", alias);\r",
 											"\r",
@@ -352,7 +350,7 @@
 							"response": []
 						},
 						{
-							"name": "POST Property - fails - duplicate property",
+							"name": "POST properties   - must fail - HTTP code 400 - duplicate property",
 							"event": [
 								{
 									"listen": "test",
@@ -362,7 +360,7 @@
 											"    pm.response.to.have.status(400);\r",
 											"});\r",
 											"\r",
-											"pm.test(\"full authentication is required to access this resource\", function () {\r",
+											"pm.test(\"property already exists\", function () {\r",
 											"   var response = pm.response.json();\r",
 											"   var alias =   pm.environment.get(\"alias\");\r",
 											"   var message = response.error;\r",
@@ -428,7 +426,228 @@
 							"response": []
 						},
 						{
-							"name": "POST Property - fails - no authentication",
+							"name": "POST properties -  must fail - HTTP code 400 - invalid ID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562\",\r\n \"alias\": \"Property for portugal\",\r\n  \"countryCode\": \"PT\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST properties - must fail - HTTP code 400 - alias is required",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Property alias is required\", function () {\r",
+											"\r",
+											"var response_errors_defaultMessage = response.errors[0].defaultMessage;\r",
+											"  pm.expect(response_errors_defaultMessage).to.be.eql('Property alias is required');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"cdd7f8b8-2013-4357-93b9-5e340abf83a1\",\r\n  \"countryCode\": \"PT\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST properties - must fail - HTTP code 400 - alias can´t be empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"alias can´t be empty\", function () {\r",
+											"\r",
+											"    var response_errors_defaultMessage = response.errors[0].defaultMessage;\r",
+											"\r",
+											"    pm.expect(response_errors_defaultMessage).to.be.eql('Property alias must have value');\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n \"alias\": \" \"\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST properties   - must fail - HTTP code 401 - no authentication",
 							"event": [
 								{
 									"listen": "test",
