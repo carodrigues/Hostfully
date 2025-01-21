@@ -94,6 +94,12 @@
 										"exec": [
 											"pm.test(\"Status code is 200\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Empty response\", function () {\r",
+											"   pm.expect(response_id).to.be.empty;   \r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -1149,6 +1155,58 @@
 						},
 						{
 							"name": "15 - GET all properties",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = pm.response.json();\r",
+											"var expected_property_id = pm.environment.get(\"property_id_for_get\");\r",
+											"const found_property = response.find(prop => prop.id === expected_property_id);\r",
+											"\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"  var response_id = found_property.id;\r",
+											"  console.log(response_id)\r",
+											"  pm.expect(response_id).to.eql(expected_property_id);   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {    \r",
+											"  var expected_alias = pm.environment.get(\"property_alias_for_get\");\r",
+											"  pm.expect(found_property.alias).to.eql(expected_alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var expected_countryCode = pm.environment.get(\"property_countryCode_for_get\");\r",
+											"  pm.expect(found_property.countryCode).to.eql(expected_countryCode);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
+											"    var expected_createdAt = pm.environment.get(\"property_createdAt_for_get\");\r",
+											"    var response_createdAt = found_property.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.eql(expected_createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [],
