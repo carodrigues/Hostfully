@@ -53,10 +53,10 @@
 											"\r",
 											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
 											"\r",
-											"  var id = pm.environment.get(\"id\");\r",
+											"  var provided_id = pm.environment.get(\"id\");\r",
 											"  var response_id = response.id;\r",
 											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
-											"   pm.expect(response_id).to.not.eql(id);\r",
+											"   pm.expect(response_id).to.not.eql(provided_id);\r",
 											"\r",
 											"    pm.environment.set(\"property_id\", response_id);\r",
 											"   \r",
@@ -64,26 +64,26 @@
 											"\r",
 											"pm.test(\"alias is equal to the provied alias\", function () {\r",
 											"    \r",
-											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var provided_alias = pm.environment.get(\"alias\");\r",
 											"  var response_alias = response.alias;\r",
-											"  pm.expect(response.alias).to.eql(alias);\r",
+											"  pm.expect(response.alias).to.eql(provided_alias);\r",
 											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
 											"\r",
-											"  var countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
-											"  pm.expect(response.response_countryCode).to.eql(countryCode);\r",
+											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
 											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
-											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var provided_createdAt = pm.environment.get(\"createdAt\");\r",
 											"    var response_createdAt = response.createdAt;      \r",
 											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
 											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
-											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"    pm.expect(response_createdAt).to.eql(provided_createdAt);\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -95,9 +95,119 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america7\"\r",
+											"var alias = \"Property for america\"\r",
 											"var countryCode = \"US\"\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var createdAt  = new Date().toISOString();\r",
+											"console.log(createdAt)\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"alias\": \"{{alias}}\",\r\n  \"countryCode\": \"{{countryCode}}\",\r\n  \"createdAt\": \"{{createdAt}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST properties - must succeed - HTTP code 201 - set future date",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"\r",
+											"  var provided_id = pm.environment.get(\"id\");\r",
+											"  var response_id = response.id;\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
+											"   pm.expect(response_id).to.not.eql(provided_id);\r",
+											"\r",
+											"    pm.environment.set(\"property_id\", response_id);\r",
+											"   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {\r",
+											"    \r",
+											"  var provided_alias = pm.environment.get(\"alias\");\r",
+											"  var response_alias = response.alias;\r",
+											"  pm.expect(response.alias).to.eql(provided_alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var response_countryCode = response.countryCode;\r",
+											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is anterior to the provided createdAt\", function () {\r",
+											"    var provided_createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var response_createdAt = response.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.be.below(provided_createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55307\"\r",
+											"var alias = \"Property for Argentina\"\r",
+											"var countryCode = \"AR\"\r",
+											"var currentLocalTime  = new Date();\r",
+											"currentLocalTime .setHours(currentLocalTime.getHours() + 1);\r",
+											"var createdAt = currentLocalTime.toISOString();\r",
+											"console.log(createdAt)\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -159,36 +269,36 @@
 											"\r",
 											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
 											"\r",
-											"  var id = pm.environment.get(\"id\");\r",
+											"  var provided_id = pm.environment.get(\"id\");\r",
 											"  var response_id = response.id;\r",
 											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/); // response id must be a guid\r",
-											"   pm.expect(response_id).to.not.eql(id); \r",
+											"   pm.expect(response_id).to.not.eql(provided_id); \r",
 											"    pm.environment.set(\"property_id\", response_id);\r",
 											"   \r",
 											"});\r",
 											"\r",
 											"pm.test(\"alias is equal to the provied alias\", function () {\r",
 											"    \r",
-											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var provided_alias = pm.environment.get(\"alias\");\r",
 											"  var response_alias = response.alias;\r",
-											"  pm.expect(response.alias).to.eql(alias); \r",
+											"  pm.expect(response.alias).to.eql(provided_alias); \r",
 											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
 											"\r",
-											"  var countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
-											"  pm.expect(response.response_countryCode).to.eql(countryCode);\r",
+											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
 											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
-											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var provided_createdAt = pm.environment.get(\"createdAt\");\r",
 											"    var response_createdAt = response.createdAt;      \r",
 											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
 											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
-											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"    pm.expect(response_createdAt).to.eql(provided_createdAt);\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -200,9 +310,9 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america7\"\r",
-											"var countryCode = [ \"US\", \"BR\", \"PL\", \"IN\" ]\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var alias = \"Property for france, Italy, Poland and United kingdom\"\r",
+											"var countryCode = [ \"FR\", \"IT\", \"PL\", \"UK\" ]\r",
+											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -264,10 +374,10 @@
 											"\r",
 											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
 											"\r",
-											"  var id = pm.environment.get(\"id\");\r",
+											"  var provided_id = pm.environment.get(\"id\");\r",
 											"  var response_id = response.id;\r",
 											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
-											"   pm.expect(response_id).to.not.eql(id);\r",
+											"   pm.expect(response_id).to.not.eql(provided_id);\r",
 											"\r",
 											"    pm.environment.set(\"property_id\", response_id);\r",
 											"   \r",
@@ -275,25 +385,23 @@
 											"\r",
 											"pm.test(\"alias is equal to the provied alias\", function () {\r",
 											"    \r",
-											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var provided_alias = pm.environment.get(\"alias\");\r",
 											"  var response_alias = response.alias;\r",
-											"  pm.expect(response.alias).to.eql(alias);\r",
+											"  pm.expect(response.alias).to.eql(provided_alias);\r",
 											"\r",
 											"});\r",
 											"\r",
 											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
-											"\r",
-											"  var countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
 											"  pm.expect(response_countryCode).to.be.null\r",
 											"});\r",
 											"\r",
 											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
-											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var provided_createdAt = pm.environment.get(\"createdAt\");\r",
 											"    var response_createdAt = response.createdAt;      \r",
 											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
 											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
-											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"    pm.expect(response_createdAt).to.eql(provided_createdAt);\r",
 											"});"
 										],
 										"type": "text/javascript",
@@ -379,7 +487,7 @@
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
 											"var alias = \"Property for america6\"\r",
 											"var countryCode = \"US\"\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -426,6 +534,75 @@
 							"response": []
 						},
 						{
+							"name": "POST properties - must fail - HTTP code 400 - long alias",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55309\"\r",
+											"var alias = \"Property for america777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = new Date().toISOString();\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"alias\": \"{{alias}}\",\r\n  \"countryCode\": \"{{countryCode}}\",\r\n  \"createdAt\": \"{{createdAt}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "POST properties -  must fail - HTTP code 400 - invalid ID",
 							"event": [
 								{
@@ -447,7 +624,7 @@
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
 											"var alias = \"Property for america6\"\r",
 											"var countryCode = \"US\"\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -471,6 +648,74 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562\",\r\n \"alias\": \"Property for portugal\",\r\n  \"countryCode\": \"PT\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST properties -  must fail - HTTP code 400 - invalid createdAt",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = new Date().toISOString();\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"ea27f999-e51c-421a-bca8-0ec386b7e193\",\r\n \"alias\": \"Property for Spain\",\r\n  \"countryCode\": \"ES\",\r\n  \"createdAt\": \"2025-01-\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -523,7 +768,7 @@
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
 											"var alias = \"Property for america6\"\r",
 											"var countryCode = \"US\"\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -600,7 +845,7 @@
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
 											"var alias = \"Property for america6\"\r",
 											"var countryCode = \"US\"\r",
-											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
 											"pm.environment.set(\"alias\", alias);\r",
@@ -668,6 +913,25 @@
 										"type": "text/javascript",
 										"packages": {}
 									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = new Date().toISOString();\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
 							"request": {
@@ -684,7 +948,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n \"alias\": \"Modern Apartment Downtown\",\r\n  \"countryCode\": \"US\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"alias\": \"{{alias}}\",\r\n  \"countryCode\": \"{{countryCode}}\",\r\n  \"createdAt\": \"{{createdAt}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
