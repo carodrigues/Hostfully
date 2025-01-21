@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "7abbc6a4-1b89-4c0a-a8c9-6c326d935b46",
+		"name": "Hostfully",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4845133"
+	},
+	"item": [
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "GET bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://qa-assessment.svc.hostfully.com/bookings",
+							"protocol": "https",
+							"host": [
+								"qa-assessment",
+								"svc",
+								"hostfully",
+								"com"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Property",
+			"item": [
+				{
+					"name": "POST Property",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"alias\": \"string\",\r\n  \"countryCode\": {},\r\n  \"createdAt\": \"2025-01-21T19:28:17.046Z\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-assessment.svc.hostfully.com/properties",
+							"protocol": "https",
+							"host": [
+								"qa-assessment",
+								"svc",
+								"hostfully",
+								"com"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST Property by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://qa-assessment.svc.hostfully.com/properties/3fa85f64-5717-4562-b3fc-2c963f66afa6",
+							"protocol": "https",
+							"host": [
+								"qa-assessment",
+								"svc",
+								"hostfully",
+								"com"
+							],
+							"path": [
+								"properties",
+								"3fa85f64-5717-4562-b3fc-2c963f66afa6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET all properties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://qa-assessment.svc.hostfully.com/properties",
+							"protocol": "https",
+							"host": [
+								"qa-assessment",
+								"svc",
+								"hostfully",
+								"com"
+							],
+							"path": [
+								"properties"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "NaX5k1wFadtkFf",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "candidate@hostfully.com",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
