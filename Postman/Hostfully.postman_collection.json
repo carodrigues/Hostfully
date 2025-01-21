@@ -36,10 +36,97 @@
 			"name": "properties",
 			"item": [
 				{
+					"name": "GET Endpoints - before properties creation",
+					"item": [
+						{
+							"name": "1 - GET by Id must return 404",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 404\", function () {\r",
+											"    pm.response.to.have.status(404);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"c773aa2c-94bf-4018-9191-2b642990599f\"\r",
+											"pm.environment.set(\"id\", id);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties/{{id}}",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties",
+										"{{id}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2 - GET all must return an empty array",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "properties creation",
 					"item": [
 						{
-							"name": "POST properties - must succeed - HTTP code 201",
+							"name": "3 - POST properties - must succeed - HTTP code 201",
 							"event": [
 								{
 									"listen": "test",
@@ -58,7 +145,7 @@
 											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
 											"   pm.expect(response_id).to.not.eql(provided_id);\r",
 											"\r",
-											"    pm.environment.set(\"property_id\", response_id);\r",
+											"    pm.environment.set(\"property_id_for_get\", response_id);\r",
 											"   \r",
 											"});\r",
 											"\r",
@@ -74,7 +161,7 @@
 											"\r",
 											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
-											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
+											"  pm.expect(response_countryCode).to.eql(provided_countryCode);\r",
 											"\r",
 											"});\r",
 											"\r",
@@ -95,8 +182,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for America1\"\r",
+											"var countryCode = \"US1\"\r",
 											"var createdAt  = new Date().toISOString();\r",
 											"console.log(createdAt)\r",
 											"\r",
@@ -104,6 +191,10 @@
 											"pm.environment.set(\"alias\", alias);\r",
 											"pm.environment.set(\"createdAt\", createdAt);\r",
 											"pm.environment.set(\"countryCode\", countryCode);\r",
+											"\r",
+											"pm.environment.set(\"property_alias_for_get\", alias);\r",
+											"pm.environment.set(\"property_countryCode_for_get\", countryCode);\r",
+											"pm.environment.set(\"property_createdAt_for_get\", createdAt);\r",
 											""
 										],
 										"type": "text/javascript",
@@ -146,7 +237,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must succeed - HTTP code 201 - set future date",
+							"name": "4 - POST properties - must succeed - HTTP code 201 - set future date",
 							"event": [
 								{
 									"listen": "test",
@@ -163,10 +254,7 @@
 											"  var provided_id = pm.environment.get(\"id\");\r",
 											"  var response_id = response.id;\r",
 											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
-											"   pm.expect(response_id).to.not.eql(provided_id);\r",
-											"\r",
-											"    pm.environment.set(\"property_id\", response_id);\r",
-											"   \r",
+											"   pm.expect(response_id).to.not.eql(provided_id);   \r",
 											"});\r",
 											"\r",
 											"pm.test(\"alias is equal to the provied alias\", function () {\r",
@@ -174,14 +262,14 @@
 											"  var provided_alias = pm.environment.get(\"alias\");\r",
 											"  var response_alias = response.alias;\r",
 											"  pm.expect(response.alias).to.eql(provided_alias);\r",
-											"\r",
+											" \r",
 											"});\r",
 											"\r",
 											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
 											"\r",
 											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
-											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
+											"  pm.expect(response_countryCode).to.eql(provided_countryCode);\r",
 											"\r",
 											"});\r",
 											"\r",
@@ -213,6 +301,8 @@
 											"pm.environment.set(\"alias\", alias);\r",
 											"pm.environment.set(\"createdAt\", createdAt);\r",
 											"pm.environment.set(\"countryCode\", countryCode);\r",
+											"\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript",
@@ -255,7 +345,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must succeed - HTTP code 201 - array of countryCodes",
+							"name": "5 - POST properties - must succeed - HTTP code 201 - array of countryCodes",
 							"event": [
 								{
 									"listen": "test",
@@ -289,7 +379,7 @@
 											"\r",
 											"  var provided_countryCode = pm.environment.get(\"countryCode\");\r",
 											"  var response_countryCode = response.countryCode;\r",
-											"  pm.expect(response.response_countryCode).to.eql(provided_countryCode);\r",
+											"  pm.expect(response_countryCode).to.eql(provided_countryCode);\r",
 											"\r",
 											"});\r",
 											"\r",
@@ -360,7 +450,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must succeed - HTTP code 201 - object only with alias property",
+							"name": "6 - POST properties - must succeed - HTTP code 201 - object only with alias property",
 							"event": [
 								{
 									"listen": "test",
@@ -412,7 +502,7 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"var alias = \"Property for america12\"\r",
+											"var alias = \"Property for China\"\r",
 											"\r",
 											"pm.environment.set(\"alias\", alias);\r",
 											"\r",
@@ -458,7 +548,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties   - must fail - HTTP code 400 - duplicate property",
+							"name": "7 - POST properties   - must fail - HTTP code 400 - duplicate property",
 							"event": [
 								{
 									"listen": "test",
@@ -485,8 +575,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for Thailand\"\r",
+											"var countryCode = \"TH\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -534,7 +624,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must fail - HTTP code 400 - long alias",
+							"name": "8 - POST properties - must fail - HTTP code 400 - long alias",
 							"event": [
 								{
 									"listen": "test",
@@ -555,7 +645,7 @@
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55309\"\r",
 											"var alias = \"Property for america777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777777\"\r",
-											"var countryCode = \"US\"\r",
+											"var countryCode = \"UA\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -603,7 +693,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties -  must fail - HTTP code 400 - invalid ID",
+							"name": "9 - POST properties -  must fail - HTTP code 400 - invalid ID",
 							"event": [
 								{
 									"listen": "test",
@@ -622,8 +712,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for France\"\r",
+											"var countryCode = \"FR\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -671,7 +761,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties -  must fail - HTTP code 400 - invalid createdAt",
+							"name": "10 - POST properties -  must fail - HTTP code 400 - invalid createdAt",
 							"event": [
 								{
 									"listen": "test",
@@ -690,8 +780,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for Romenia\"\r",
+											"var countryCode = \"RE\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -739,7 +829,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must fail - HTTP code 400 - alias is required",
+							"name": "11 - POST properties - must fail - HTTP code 400 - alias is required",
 							"event": [
 								{
 									"listen": "test",
@@ -766,8 +856,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for Japan\"\r",
+											"var countryCode = \"JP\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -815,7 +905,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties - must fail - HTTP code 400 - alias can´t be empty",
+							"name": "12 - POST properties - must fail - HTTP code 400 - alias can´t be empty",
 							"event": [
 								{
 									"listen": "test",
@@ -843,8 +933,8 @@
 									"script": {
 										"exec": [
 											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
-											"var alias = \"Property for america6\"\r",
-											"var countryCode = \"US\"\r",
+											"var alias = \"Property for Australia\"\r",
+											"var countryCode = \"AU\"\r",
 											"var createdAt = new Date().toISOString();\r",
 											"\r",
 											"pm.environment.set(\"id\", id);\r",
@@ -892,7 +982,7 @@
 							"response": []
 						},
 						{
-							"name": "POST properties   - must fail - HTTP code 401 - no authentication",
+							"name": "13 - POST properties   - must fail - HTTP code 401 - no authentication",
 							"event": [
 								{
 									"listen": "test",
@@ -974,10 +1064,91 @@
 					]
 				},
 				{
-					"name": "GET Properties",
+					"name": "GET Endpoints - after properties creation",
 					"item": [
 						{
-							"name": "GET all properties",
+							"name": "14 - POST Property by id",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"\r",
+											"  var expected_property_id = pm.environment.get(\"property_id_for_get\");\r",
+											"  var response_id = response.id;\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
+											"   pm.expect(response_id).to.eql(expected_property_id);\r",
+											"   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {\r",
+											"    \r",
+											"  var expected_alias = pm.environment.get(\"property_alias_for_get\");\r",
+											"  var response_alias = response.alias;\r",
+											"  pm.expect(response.alias).to.eql(expected_alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var expected_countryCode = pm.environment.get(\"property_countryCode_for_get\");\r",
+											"  var response_countryCode = response.countryCode;\r",
+											"  pm.expect(response_countryCode).to.eql(expected_countryCode);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
+											"    var expected_createdAt = pm.environment.get(\"property_createdAt_for_get\");\r",
+											"    var response_createdAt = response.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.eql(expected_createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// depends of test 3 - POST properties - must succeed - HTTP code 201"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties/{{property_id_for_get}}",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties",
+										"{{property_id_for_get}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "15 - GET all properties",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -992,28 +1163,6 @@
 									],
 									"path": [
 										"properties"
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "POST Property by id",
-							"request": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "https://qa-assessment.svc.hostfully.com/properties/{{property_id}}",
-									"protocol": "https",
-									"host": [
-										"qa-assessment",
-										"svc",
-										"hostfully",
-										"com"
-									],
-									"path": [
-										"properties",
-										"{{property_id}}"
 									]
 								}
 							},
