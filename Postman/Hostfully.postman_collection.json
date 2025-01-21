@@ -36,83 +36,507 @@
 			"name": "Property",
 			"item": [
 				{
-					"name": "POST Property",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n  \"alias\": \"string\",\r\n  \"countryCode\": {},\r\n  \"createdAt\": \"2025-01-21T19:28:17.046Z\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "Property Creation",
+					"item": [
+						{
+							"name": "POST Property - success - single countryCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"\r",
+											"  var id = pm.environment.get(\"id\");\r",
+											"  var response_id = response.id;\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
+											"   pm.expect(response_id).to.not.eql(id);\r",
+											"\r",
+											"    pm.environment.set(\"property_id\", response_id);\r",
+											"   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {\r",
+											"    \r",
+											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var response_alias = response.alias;\r",
+											"  pm.expect(response.alias).to.eql(alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var response_countryCode = response.countryCode;\r",
+											"  pm.expect(response.response_countryCode).to.eql(countryCode);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
+											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var response_createdAt = response.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
-							}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"alias\": \"{{alias}}\",\r\n  \"countryCode\": \"{{countryCode}}\",\r\n  \"createdAt\": \"{{createdAt}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "https://qa-assessment.svc.hostfully.com/properties",
-							"protocol": "https",
-							"host": [
-								"qa-assessment",
-								"svc",
-								"hostfully",
-								"com"
+						{
+							"name": "POST Property - success - array of countryCodes",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"\r",
+											"  var id = pm.environment.get(\"id\");\r",
+											"  var response_id = response.id;\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
+											"   pm.expect(response_id).to.not.eql(id);\r",
+											"\r",
+											"    pm.environment.set(\"property_id\", response_id);\r",
+											"   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {\r",
+											"    \r",
+											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var response_alias = response.alias;\r",
+											"  pm.expect(response.alias).to.eql(alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var response_countryCode = response.countryCode;\r",
+											"  pm.expect(response.response_countryCode).to.eql(countryCode);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
+											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var response_createdAt = response.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
 							],
-							"path": [
-								"properties"
-							]
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"{{id}}\",\r\n  \"alias\": \"{{alias}}\",\r\n  \"countryCode\": \"{{countryCode}}\",\r\n  \"createdAt\": \"{{createdAt}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Property - success - object only with alias property",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"});\r",
+											"\r",
+											"var response = pm.response.json();\r",
+											"\r",
+											"pm.test(\"ID is not equal to the provided ID and is a valid guid\", function () {\r",
+											"\r",
+											"  var id = pm.environment.get(\"id\");\r",
+											"  var response_id = response.id;\r",
+											"  pm.expect(response.id).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);\r",
+											"   pm.expect(response_id).to.not.eql(id);\r",
+											"\r",
+											"    pm.environment.set(\"property_id\", response_id);\r",
+											"   \r",
+											"});\r",
+											"\r",
+											"pm.test(\"alias is equal to the provied alias\", function () {\r",
+											"    \r",
+											"  var alias = pm.environment.get(\"alias\");\r",
+											"  var response_alias = response.alias;\r",
+											"  pm.expect(response.alias).to.eql(alias);\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
+											"\r",
+											"  var countryCode = pm.environment.get(\"countryCode\");\r",
+											"  var response_countryCode = response.countryCode;\r",
+											"  pm.expect(response_countryCode).to.be.null\r",
+											"\r",
+											"});\r",
+											"\r",
+											"pm.test(\"createdAt is valid and equal to the provided createdAt\", function () {\r",
+											"    var createdAt = pm.environment.get(\"createdAt\");\r",
+											"    var response_createdAt = response.createdAt;      \r",
+											"    var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date\r",
+											"    pm.expect(validdatetime).to.not.be.NaN;  \r",
+											"    pm.expect(response_createdAt).to.eql(createdAt);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var alias = \"Property for america11\"\r",
+											"\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"alias\": \"{{alias}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Property - fails - duplicate property",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"full authentication is required to access this resource\", function () {\r",
+											"   var response = pm.response.json();\r",
+											"   var alias =   pm.environment.get(\"alias\");\r",
+											"   var message = response.error;\r",
+											"   var expected_message = alias + \" already exists\"\r",
+											"   pm.expect(message).to.contain(expected_message).and.not.empty;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"var id = \"a2478f68-3746-4438-96d8-c2eec0e55305\"\r",
+											"var alias = \"Property for america6\"\r",
+											"var countryCode = \"US\"\r",
+											"var createdAt = \"2025-01-21T14:30:00Z\"\r",
+											"\r",
+											"pm.environment.set(\"id\", id);\r",
+											"pm.environment.set(\"alias\", alias);\r",
+											"pm.environment.set(\"createdAt\", createdAt);\r",
+											"pm.environment.set(\"countryCode\", countryCode);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n \"alias\": \"Modern Apartment Downtown\",\r\n  \"countryCode\": \"US\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Property - fails - no authentication",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"full authentication is required to access this resource\", function () {\r",
+											"   var response = pm.response.json();\r",
+											"   var message = response.exception;\r",
+											"   console.log(message);\r",
+											"   pm.expect(message).to.contain('Full authentication is required to access this resource').and.not.empty;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"id\": \"3fa85f64-5717-4562-b3fc-2c963f66afa6\",\r\n \"alias\": \"Modern Apartment Downtown\",\r\n  \"countryCode\": \"US\",\r\n  \"createdAt\": \"2025-01-21T14:30:00Z\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
 				},
 				{
-					"name": "POST Property by id",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://qa-assessment.svc.hostfully.com/properties/3fa85f64-5717-4562-b3fc-2c963f66afa6",
-							"protocol": "https",
-							"host": [
-								"qa-assessment",
-								"svc",
-								"hostfully",
-								"com"
-							],
-							"path": [
-								"properties",
-								"3fa85f64-5717-4562-b3fc-2c963f66afa6"
-							]
+					"name": "GET Properties",
+					"item": [
+						{
+							"name": "GET all properties",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "POST Property by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://qa-assessment.svc.hostfully.com/properties/{{property_id}}",
+									"protocol": "https",
+									"host": [
+										"qa-assessment",
+										"svc",
+										"hostfully",
+										"com"
+									],
+									"path": [
+										"properties",
+										"{{property_id}}"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET all properties",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://qa-assessment.svc.hostfully.com/properties",
-							"protocol": "https",
-							"host": [
-								"qa-assessment",
-								"svc",
-								"hostfully",
-								"com"
-							],
-							"path": [
-								"properties"
-							]
-						}
-					},
-					"response": []
+					]
 				}
 			]
 		}
