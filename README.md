@@ -1,14 +1,20 @@
 # Hostfully
 Hostfully
 
+How to execute the test cases:
+1- Install Potman version
+2- Import collection 
+3-
+
 
 Property Test Cases
+
 1. POST New Property Without Authentication
 Expected Result: 401 Unauthorized must be returned.
-2. Create Property
+
+2. Resource Properties - Create
 Notes:
-- The POST endpoint currently returns 200 OK for success but should return 201 Created.
-- According to the specification, only the alias property is required for a property to be created.
+- According to the specification, only the alias is required for a property to be created.
    If id is included in the creation object, it is ignored by the application, and a random id is generated instead.
 
 2.1 Fulfill All Properties
