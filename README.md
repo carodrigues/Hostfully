@@ -47,13 +47,10 @@ The **second round** is designed to test the creation of new properties, includi
 
 ## Firth Round: Booking Validation
 The **firth round** focuses on **Booking Validation**, ensuring that:
-* Before creating a new booking, verification is conducted to confirm that the new booking does not overlap with existing ones for a specific guest.
+* ***API call 17*** Before creating a new booking, verification is conducted to confirm that the new booking does not overlap with existing ones for a specific guest.
+* ***API call 18 and 19*** validate that post follow verifies overlap cases
 
-**notes**:
-- The verification was implemented in a Postman post-response script.
-- Ideally, this validation should be handled internally by the service.
-- To be able to execute the fifth round, please insure that at least a property was created and use it on varibale 'booking_propertyId'
+![image](https://github.com/user-attachments/assets/3c1369c3-6f8b-4a43-aacc-2cb75504250e)
 
-![image](https://github.com/user-attachments/assets/83230bed-09f7-4030-9171-a842296937e1)
 
 
