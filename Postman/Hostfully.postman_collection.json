@@ -19,6 +19,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// Verification that authenticaion is required\r",
+											"\r",
 											"pm.test(\"Status code is 401\", function () {\r",
 											"    pm.response.to.have.status(401);\r",
 											"});\r",
@@ -139,6 +141,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// Verification that authenticaion is required\r",
+											"\r",
 											"pm.test(\"Status code is 401\", function () {\r",
 											"    pm.response.to.have.status(401);\r",
 											"});\r",
@@ -246,6 +250,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verify property creation succeeds\r",
+											"\r",
 											"pm.test(\"Status code is 201\", function () {\r",
 											"  pm.response.to.have.status(201);\r",
 											"});\r",
@@ -365,6 +371,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verify property creation succeeds for a future date\r",
 											"pm.test(\"Status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"});\r",
@@ -488,6 +495,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verify property creation accepts mutlple countryCodes\r",
+											"\r",
 											"pm.test(\"Status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"});\r",
@@ -608,6 +617,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// Verify that an object containing only the alias property is accepted.\r",
 											"pm.test(\"Status code is 201\", function () {\r",
 											"    pm.response.to.have.status(201);\r",
 											"});\r",
@@ -721,6 +731,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verifiy that duplicated properties aren´t accepted\r",
+											"\r",
 											"pm.test(\"Status code is 400\", function () {\r",
 											"    pm.response.to.have.status(400);\r",
 											"});\r",
@@ -1221,6 +1233,8 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// Verification that authenticaion is required\r",
+											"\r",
 											"pm.test(\"Status code is 401\", function () {\r",
 											"    pm.response.to.have.status(401);\r",
 											"});\r",
@@ -1318,6 +1332,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verify that get by id returns an existing booking\r",
+											"// API call depends of \"POST 3 - POST properties - HTTP code 201\" call\r",
+											"\r",
 											"pm.test(\"Status code is 200\", function () {\r",
 											"    pm.response.to.have.status(200);\r",
 											"});\r",
@@ -1342,7 +1359,6 @@
 											"});\r",
 											"\r",
 											"pm.test(\"countryCode is equal to the provied countryCode\", function () {\r",
-											"\r",
 											"  var expected_countryCode = pm.environment.get(\"property_countryCode_for_get\");\r",
 											"  var response_countryCode = response.countryCode;\r",
 											"  pm.expect(response_countryCode).to.eql(expected_countryCode);\r",
@@ -1424,6 +1440,9 @@
 									"listen": "test",
 									"script": {
 										"exec": [
+											"// verify that get all contains a booking \r",
+											"// API call depends of \"POST 3 - POST properties - HTTP code 201\" call\r",
+											"\r",
 											"var response = pm.response.json();\r",
 											"var expected_property_id = pm.environment.get(\"property_id_for_get\");\r",
 											"const found_property = response.find(prop => prop.id === expected_property_id);\r",
@@ -1509,6 +1528,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// Verification that authenticaion is required\r",
+									"\r",
 									"pm.test(\"Status code is 401\", function () {\r",
 									"    pm.response.to.have.status(401);\r",
 									"});\r",
@@ -1589,6 +1610,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// Verification that the GET All endpoint works properly and that a new booking succeeds when it doesn't overlap with existing bookings.\r",
+									"\r",
 									"// validate response code\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -1810,6 +1833,8 @@
 							"listen": "prerequest",
 							"script": {
 								"exec": [
+									"// verification that new booking is created\r",
+									"\r",
 									"pm.test(\"Status code is 201\", function () {\r",
 									"    pm.response.to.have.status(201);\r",
 									"});"
@@ -1924,6 +1949,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"// Verification that the POST request properly validates overlapping scenarios.\r",
 									"pm.test(\"Status code is 422\", function () {\r",
 									"    pm.response.to.have.status(422);\r",
 									"});\r",
