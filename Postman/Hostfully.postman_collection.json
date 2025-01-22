@@ -1500,10 +1500,7 @@
 									"    }\r",
 									"    return false; // No overlap\r",
 									"}\r",
-									"\r",
-									"\r",
-									"  // var response_createdAt = found_property.createdAt;      \r",
-									"  //  var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date"
+									""
 								],
 								"type": "text/javascript",
 								"packages": {}
