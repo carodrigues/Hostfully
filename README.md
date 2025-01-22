@@ -3,20 +3,23 @@ Hostfully Booking project
 
 **Environment setup**
 
-1- **Install Git** and configure it on your system.
+1- **Download nad install Git** and configure it on your system.
+   * Download Git from https://git-scm.com/.
 
 2- **Access GitHub**.
+   * Github site: https://github.com/
 
 3- **Clone the repository** to your local computer using the following command:
   ```bash
    git clone https://github.com/carodrigues/Hostfully.git
   ```
-4- **Install the latest version of Postman** (Windows 64-bit) from https://www.postman.com/downloads/.
+4- **Download and Install the latest version of Postman** (Windows 64-bit).  
+   * Dowload Postman from https://www.postman.com/downloads/.
 
 5- **Start Postman** and log in with a valid account.
 
 6- **Import the collection**: Postman\Hostfully.postman_collection.json.
-  To import, go to File → Import and select the file.
+   * To import, go to File → Import and select the file.
 
 
 **How to Execute the Test Cases**
