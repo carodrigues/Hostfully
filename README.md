@@ -1,7 +1,7 @@
 # Hostfully
 Hostfully Booking project 
 
-How to Execute the Test Cases
+**Environment setup**
 
 1- **Install Git** and configure it on your system.
 
@@ -11,8 +11,6 @@ How to Execute the Test Cases
   ```bash
    git clone https://github.com/carodrigues/Hostfully.git
   ```
-
-
 4- **Install the latest version of Postman** (Windows 64-bit) from https://www.postman.com/downloads/.
 
 5- **Start Postman** and log in with a valid account.
@@ -20,7 +18,8 @@ How to Execute the Test Cases
 6- **Import the collection**: Postman\Hostfully.postman_collection.json.
   To import, go to File → Import and select the file.
 
-7- Run the tests.
+
+**How to Execute the Test Cases**
 
 The tests to be executed are numbered from 1 to 16.
 The first two tests, API calls, aim to validate the response when no property exists in the database.
