@@ -1326,7 +1326,224 @@
 					"response": []
 				},
 				{
+					"name": "POST bookings Copy",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"var startDate = \"2025-01-17\";\r",
+									"var endDate = \"2025-01-17\";\r",
+									"var status = \"SCHEDULED\";\r",
+									"var guest_firstName = \"John\";\r",
+									"var guest_lastName = \"Doe\";\r",
+									"var guest_dateOfBirth = \"1985-07-15\";\r",
+									"var booking_propertyId = pm.environment.get(\"property_id_for_get\");\r",
+									"\r",
+									"pm.environment.set(\"booking_startDate\", startDate);\r",
+									"pm.environment.set(\"booking_endDate\", endDate);\r",
+									"pm.environment.set(\"booking_status\", status);\r",
+									"pm.environment.set(\"booking_guest_firstName\", guest_firstName);\r",
+									"pm.environment.set(\"booking_guest_lastName\", guest_lastName);\r",
+									"pm.environment.set(\"booking_guest_dateOfBirth\", guest_dateOfBirth);\r",
+									"pm.environment.set(\"booking_propertyId\", booking_propertyId);\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json();\r",
+									"\r",
+									"const startDate = new Date(response.startDate[0], response.startDate[1] - 1, response.startDate[2]);\r",
+									"\r",
+									"const endDate = new Date(response.endDate[0], response.endDate[1] - 1, response.endDate[2]);\r",
+									"\r",
+									"const dateOfBirth = new Date(response.guest.dateOfBirth[0], response.guest.dateOfBirth[1] - 1, response.guest.dateOfBirth[2]);\r",
+									"\r",
+									"\r",
+									"pm.test(\"startDate is de provide startDate\", function () {\r",
+									"    var provided_startDate = pm.environment.get(\"booking_startDate\");\r",
+									"    pm.expect(startDate.toISOString().split('T')[0]).to.be.eql(provided_startDate)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"endDate is de provide endDate\", function () {\r",
+									"    var provided_endDate = pm.environment.get(\"booking_endDate\");\r",
+									"    pm.expect(endDate.toISOString().split('T')[0]).to.be.eql(provided_endDate)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"status is de provide status\", function () {\r",
+									"    var provided_status = pm.environment.get(\"booking_status\");\r",
+									"    pm.expect(response.status).to.be.eql(provided_status)\r",
+									"});\r",
+									"\r",
+									"pm.test(\"guest is de provide guest\", function () {\r",
+									"\r",
+									"    var provided_booking_guest_firstName = pm.environment.get(\"booking_guest_firstName\");\r",
+									"    var provided_booking_guest_lastName = pm.environment.get(\"booking_guest_lastName\");\r",
+									"    var provided_booking_guest_dateOfBirth = pm.environment.get(\"booking_guest_dateOfBirth\");\r",
+									"\r",
+									"    pm.expect(response.guest.firstName).to.be.eql(provided_booking_guest_firstName)\r",
+									"    pm.expect(response.guest.lastName).to.be.eql(provided_booking_guest_lastName)\r",
+									"   \r",
+									"   console.log(dateOfBirth)\r",
+									"   console.log(dateOfBirth.toISOString().split('T')[0])\r",
+									"   console.log(provided_booking_guest_dateOfBirth)\r",
+									"  // fix \r",
+									"    pm.expect(dateOfBirth.toISOString().split('T')[0]).to.be.eql(provided_booking_guest_dateOfBirth)\r",
+									"\r",
+									"});\r",
+									"\r",
+									"pm.test(\"propertyId is de provide propertyId\", function () {\r",
+									"    var provided_booking_propertyId = pm.environment.get(\"booking_propertyId\");\r",
+									"    pm.expect(response.propertyId ).to.be.eql(provided_booking_propertyId)\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"startDate\": \"{{booking_startDate}}\",\r\n  \"endDate\": \"{{booking_endDate}}\",\r\n  \"status\": \"{{booking_status}}\",\r\n  \"guest\": {\r\n    \"firstName\": \"{{booking_guest_firstName}}\",\r\n    \"lastName\": \"{{booking_guest_lastName}}\",\r\n    \"dateOfBirth\": \"{{booking_guest_dateOfBirth}}\"\r\n  },\r\n  \"propertyId\": \"{{booking_propertyId}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://qa-assessment.svc.hostfully.com/bookings",
+							"protocol": "https",
+							"host": [
+								"qa-assessment",
+								"svc",
+								"hostfully",
+								"com"
+							],
+							"path": [
+								"bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GET bookings Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var response = pm.response.json()\r",
+									"\r",
+									"// Filter the reservations for a specific user\r",
+									"var filteredReservations = response.filter(reservation => \r",
+									"    reservation.guest.firstName === \"John\" && reservation.guest.lastName === \"Doe\"\r",
+									");\r",
+									"\r",
+									"// Save the filtered reservations in a Postman variable\r",
+									"pm.environment.set(\"filteredReservationsByUser\", JSON.stringify(filteredReservations));\r",
+									"\r",
+									"// Log the filtered reservations to the console\r",
+									"console.log(filteredReservations);\r",
+									"\r",
+									"var booking_startDate = pm.environment.get(\"booking_startDate\");\r",
+									"var booking_endDate = pm.environment.get(\"booking_endDate\");\r",
+									"\r",
+									"  \r",
+									"\r",
+									"const overlap = isOverlapping(booking_startDate,booking_endDate, filteredReservations);\r",
+									"\r",
+									"if (overlap) {\r",
+									"    console.log(\"New booking overlaps with an existing booking!\");\r",
+									"} else {\r",
+									"    console.log(\"New booking is valid!\");\r",
+									"}\r",
+									"\r",
+									"function isOverlapping(booking_startDate,booking_endDate, filteredReservations) {\r",
+									" \r",
+									"    for (const booking of filteredReservations) {\r",
+									"  \r",
+									"        const existingStart = Date.parse(booking.startDate);\r",
+									"        const existingEnd =  Date.parse(booking.endDate);        \r",
+									"        console.log(existingStart)\r",
+									"        console.log(existingEnd)\r",
+									"         \r",
+									"        // Check for overlap\r",
+									"        if (\r",
+									"            (booking_startDate >= existingStart && booking_startDate <= existingEnd) || // New start is in existing range\r",
+									"            (existingEnd >= existingStart && existingEnd <= existingEnd) ||     // New end is in existing range\r",
+									"            (booking_startDate <= existingStart && existingEnd >= existingEnd)      // New range covers existing range\r",
+									"        ) {\r",
+									"            return true; // Overlapping booking found\r",
+									"        }\r",
+									"    }\r",
+									"    return false; // No overlap\r",
+									"}\r",
+									"\r",
+									"\r",
+									"  // var response_createdAt = found_property.createdAt;      \r",
+									"  //  var validdatetime = Date.parse(response_createdAt); // Check if datetime is a valid date"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"//Create booking for user John Doe\r",
+									"\r",
+									"var user = \"John Doe\"\r",
+									"\r",
+									"var splitName = user.split(\" \");\r",
+									"var guest_firstName = splitName[0]; \r",
+									"var guest_lastName = splitName[1];  \r",
+									"\r",
+									"var startDate = \"2025-01-17\";\r",
+									"var endDate = \"2025-01-17\";\r",
+									"var status = \"SCHEDULED\";\r",
+									"var guest_dateOfBirth = \"1985-07-15\";\r",
+									"var booking_propertyId = pm.environment.get(\"property_id_for_get\");\r",
+									"\r",
+									"pm.environment.set(\"booking_startDate\", startDate);\r",
+									"pm.environment.set(\"booking_endDate\", endDate);\r",
+									"pm.environment.set(\"booking_status\", status);\r",
+									"pm.environment.set(\"booking_guest_firstName\", guest_firstName);\r",
+									"pm.environment.set(\"booking_guest_lastName\", guest_lastName);\r",
+									"pm.environment.set(\"booking_guest_dateOfBirth\", guest_dateOfBirth);\r",
+									"pm.environment.set(\"booking_propertyId\", booking_propertyId);\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [],
