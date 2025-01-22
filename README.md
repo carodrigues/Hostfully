@@ -26,7 +26,7 @@ Hostfully Booking project
 
 # Preconditions
 * Ensure that the database is empty!
-* Execute test by the refered order 
+* Execute the API calls, one by one, by the refered order 
 
 # Test Execution Plan
 The tests to be executed are numbered from **1 to 16**.
