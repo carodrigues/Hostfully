@@ -25,7 +25,7 @@ Hostfully Booking project
 # How to Execute the Test Cases
 
 # Preconditions
-* Ensure that the database is empty.
+* Ensure that the database is empty!
 
 # Test Execution Plan
 The tests to be executed are numbered from **1 to 16**.
