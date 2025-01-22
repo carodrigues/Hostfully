@@ -1,9 +1,9 @@
 # Hostfully
 Hostfully Booking project 
 
-**Environment setup**
+# Environment setup
 
-1- **Download nad install Git** and configure it on your system.
+1- **Download and install Git** and configure it on your system.
    * Download Git from https://git-scm.com/.
 
 2- **Access GitHub**.
