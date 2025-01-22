@@ -40,6 +40,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -82,6 +97,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -183,6 +213,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -291,6 +336,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -396,6 +456,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -494,6 +569,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -570,6 +660,9 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer"
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -639,6 +732,9 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "bearer"
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -707,6 +803,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -775,6 +886,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -851,6 +977,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -928,6 +1069,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "POST",
 								"header": [
 									{
@@ -1006,7 +1162,19 @@
 							],
 							"request": {
 								"auth": {
-									"type": "noauth"
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [
@@ -1108,6 +1276,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -1182,6 +1365,21 @@
 								}
 							],
 							"request": {
+								"auth": {
+									"type": "basic",
+									"basic": [
+										{
+											"key": "username",
+											"value": "{{auth_username}}",
+											"type": "string"
+										},
+										{
+											"key": "password",
+											"value": "{{auth_password}}",
+											"type": "string"
+										}
+									]
+								},
 								"method": "GET",
 								"header": [],
 								"url": {
@@ -1208,7 +1406,7 @@
 			"name": "Bookings",
 			"item": [
 				{
-					"name": "POST bookings",
+					"name": "POST bookings test1",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1326,7 +1524,7 @@
 					"response": []
 				},
 				{
-					"name": "POST bookings Copy",
+					"name": "POST bookings  test",
 					"event": [
 						{
 							"listen": "prerequest",
@@ -1444,14 +1642,12 @@
 					"response": []
 				},
 				{
-					"name": "GET bookings",
+					"name": "16 - GET bookings - overlap validation - post booking",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
-									"\r",
-									"\r",
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
@@ -1518,14 +1714,12 @@
 									"\r",
 									"console.log(body)\r",
 									"\r",
-									"var username = \"candidate@hostfully.com\";\r",
-									"var password =  \"NaX5k1wFadtkFf\";\r",
+									"var username = pm.environment.get(\"auth_username\");\r",
+									"var password = pm.environment.get(\"auth_password\");\r",
 									"\r",
-									"\r",
-									"// Create the Basic Authentication string (username:password) and encode it in base64\r",
 									"var auth = btoa(username + ':' + password);  // btoa encodes to base64\r",
 									"\r",
-									"\r",
+									"pm.environment.set(\"auth\", auth);\r",
 									"const headers = {\r",
 									"    'Content-Type': 'application/json',\r",
 									"    'Authorization': 'Basic ' + auth \r",
@@ -1606,8 +1800,8 @@
 									"var guest_firstName = splitName[0]; \r",
 									"var guest_lastName = splitName[1];  \r",
 									"\r",
-									"var startDate = \"2025-03-02\";\r",
-									"var endDate = \"2025-03-02\";\r",
+									"var startDate = \"2025-03-03\";\r",
+									"var endDate = \"2025-03-03\";\r",
 									"\r",
 									"\r",
 									"var status = \"SCHEDULED\";\r",
@@ -1622,6 +1816,7 @@
 									"pm.environment.set(\"booking_guest_dateOfBirth\", guest_dateOfBirth);\r",
 									"pm.environment.set(\"booking_propertyId\", booking_propertyId);\r",
 									"\r",
+									"\r",
 									""
 								],
 								"type": "text/javascript",
@@ -1630,6 +1825,21 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{auth_username}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{auth_password}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -1673,7 +1883,11 @@
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
-					""
+					"var auth_username = \"candidate@hostfully.com\";\r",
+					"var auth_password =  \"NaX5k1wFadtkFf\";\r",
+					"\r",
+					"pm.environment.set(\"auth_username\", auth_username);\r",
+					"pm.environment.set(\"auth_password\", auth_password);"
 				]
 			}
 		},
